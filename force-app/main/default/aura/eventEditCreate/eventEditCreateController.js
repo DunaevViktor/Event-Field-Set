@@ -1,15 +1,27 @@
 ({
-    handleClick : function(component, event, helper) {
-        var action = component.get("c.getFields");
-        action.setCallback(this, function(response) {
-            var state = response.getState();
-            if(state === "SUCCESS") {
-                console.log(response.getReturnValue());
-            }
-            else{
-                console.log("Failed with state: " + state);
-            }
-        });
-        $A.enqueueAction(action);
-    }
+    doInit: function(component, event, helper) {
+        helper.helperInit(component);
+    },
+
+    handleEdit: function(component, event, helper) {
+        //reRender
+        component.set("v.showEditForm", true);
+        helper.helperEdit(component);
+    },
+
+    handleCreate: function(component, event, helper) {
+        helper.helperCreate(component);
+    },
+
+    handleUpdate: function(component, event, helper) {
+        //reRender
+        component.set("v.showEditForm", false);
+        helper.helperUpdate(component);
+    },
+
+    handleCancel: function(component, event, helper) {
+        //reRender
+        component.set("v.showEditForm", false);
+    },
+
 })

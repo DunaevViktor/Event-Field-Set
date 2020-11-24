@@ -32,5 +32,17 @@
         <members>*</members>
         <name>StaticResource</name>
     </types>
+    <types>
+        <members>Activity.Custom_Currency__c</members>
+        <members>Activity.Custom_Date__c</members>
+        <members>Activity.Custom_Number__c</members>
+        <members>Activity.Custom_Picklist__c</members>
+        <members>Activity.Custom_Text__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>Event.CustomFieldSet</members> 
+        <name>FieldSet</name>
+    </types>
     <version>50.0</version>
 </Package>

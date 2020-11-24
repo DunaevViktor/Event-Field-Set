@@ -1,0 +1,11 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride"
+                access="global"
+                controller="EventController">
+
+    <lightning:card>
+        {!v.recordId}
+        <br/>
+        <lightning:button variant="brand" label="Click" title="title" onclick="{!c.handleClick}"/>
+    </lightning:card>
+
+</aura:component>

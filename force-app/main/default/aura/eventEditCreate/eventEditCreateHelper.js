@@ -122,17 +122,18 @@
     },
 
     convertDatatype: function(datatype) {
-        //new logic for picklist, checkbox, text area, text area(long) + required
+        //new logic for picklist + required
         switch(datatype) {
             case 'INTEGER': return 'number';
             case 'DOUBLE': return 'number';
             case 'CURRENCY': return 'number';
             case 'DATETIME': return 'datetime';
             case 'DATE': return 'date';
-            case 'TEXTAREA': return 'text';
             case 'STRING': return 'text';
             case 'PICKLIST': return 'text';
-            case 'BOOLEAN': return 'checkbox';
+            //case 'TEXTAREA': return 'text';
+            //case long text area
+            //case 'BOOLEAN': return 'checkbox';
             default: return datatype;
         }
     },

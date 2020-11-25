@@ -29,9 +29,52 @@ public with sharing class EventController {
     }
 
     @AuraEnabled
-    public static void updateEvent(Id recordId, List<Object> fieldsInfo){
-        //update logic here
-        System.debug(recordId);
-        System.debug(fieldsInfo);
+    public static void updateEvent(Id recordId, List<String> namesInfo, List<String> valuesInfo, List<String> typesInfo){
+        
+        String soqlFields = '';
+        for(String st: namesInfo){
+            soqlFields = soqlFields + st + ' , ';
+        }
+        soqlFields = soqlFields.removeEnd(' , ');
+        String query = 'SELECT Id, ' + soqlFields + ' FROM Event WHERE Id = :recordId';
+        Event eventForUpdate = Database.query(query);
+
+        SObjectType objType = Schema.getGlobalDescribe().get('Event');
+        Map<String, Schema.SObjectField> fieldMap = objType.getDescribe().fields.getMap();
+        
+        Integer count = 0;
+        for(String key: namesInfo){
+            for(String field: fieldMap.keyset()){
+                String fieldName = fieldMap.get(field).getDescribe().getName();
+                if(key == fieldName){
+                    String currType = typesInfo[count];
+                    switch on currType{
+                        when 'datetime' {
+                            String str = valuesInfo[count].removeEnd('.000Z');
+                            String str1 = str.replace('T', ' ');
+                            Datetime newDT = Datetime.valueOf(str1);
+                            eventForUpdate.put(fieldName, newDT);
+                        }
+                        when 'date' {
+                            Date newDate = Date.valueOf(valuesInfo[count]);
+                            eventForUpdate.put(fieldName, newDate);
+                        }
+                        when 'number' {
+                            Integer newInt = Integer.valueOf(valuesInfo[count]);
+                            eventForUpdate.put(fieldName, newInt);
+                        }
+                        when 'text' {
+                            eventForUpdate.put(fieldName, valuesInfo[count]);
+                        }
+                        when else {
+                            System.debug('unknown type');
+                            //return
+                        }
+                    }
+                }
+            }
+            count++;
+        }
+        update eventForUpdate;
     }
 }

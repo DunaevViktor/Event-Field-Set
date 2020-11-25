@@ -57,12 +57,18 @@
     helperUpdate: function(component) {
         var fields = component.get("v.FieldsInfo");
         var listNewValues = component.find("inputId");
+
+        var listNames = [];
+        var listValues = [];
+        var listTypes = [];
         for(var i=0; i<listNewValues.length; i++){
             for(var j=0; j<fields.length; j++){
                 var label = listNewValues[i].get("v.label");
                 if(label == fields[j].Label){
                     var value = listNewValues[i].get("v.value");
-                    fields[j].Value = value;
+                    listValues.push(value);
+                    listNames.push(fields[j].Name);
+                    listTypes.push(fields[j].Type);
                 }
             }
         }
@@ -71,13 +77,15 @@
         var action = component.get("c.updateEvent");
         action.setParams({
             recordId: recordId,
-            fieldsInfo: fields
+            namesInfo: listNames,
+            valuesInfo: listValues,
+            typesInfo: listTypes
         });
         $A.enqueueAction(action);
     },
 
     convertDatatype: function(datatype) {
-        //new logic for picklist
+        //new logic for picklist, checkbox, text area, text area(long) + required
         switch(datatype) {
             case 'INTEGER': return 'number';
             case 'DOUBLE': return 'number';

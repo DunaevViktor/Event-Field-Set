@@ -33,6 +33,7 @@
         <name>StaticResource</name>
     </types>
     <types>
+        <members>Activity.Custom_Checkbox__c</members>
         <members>Activity.Custom_Currency__c</members>
         <members>Activity.Custom_Date__c</members>
         <members>Activity.Custom_Number__c</members>

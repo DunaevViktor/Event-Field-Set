@@ -80,8 +80,14 @@
             for(var j=0; j<fields.length; j++){
                 var label = listNewValues[i].get("v.label");
                 if(label == fields[j].Label){
-                    var value = listNewValues[i].get("v.value");
-                    listValues.push(value);
+                    if(fields[j].Type == 'checkbox'){
+                        var valueCheckbox = listNewValues[i].get("v.checked");
+                        listValues.push(valueCheckbox);
+                    }
+                    else{
+                        var value = listNewValues[i].get("v.value");
+                        listValues.push(value);
+                    }
                     listNames.push(fields[j].Name);
                     listTypes.push(fields[j].Type);
                 }
@@ -100,15 +106,27 @@
     },
 
     helperInsert: function(component) {
-        var newFields = component.get("v.NewFieldsInfo");
+        var currBoolean = false;
+        var listNewValues = component.find("newId");
+        for(var j=0; j<listNewValues.length; j++){
+            if(listNewValues[j].get("v.type") == 'checkbox'){
+                currBoolean = listNewValues[j].get("v.checked");
+            }
+        }
 
+        var newFields = component.get("v.NewFieldsInfo");
         var listNames = [];
         var listValues = [];
         var listTypes = [];
         
         for(var i=0; i<newFields.length; i++){
+            if(newFields[i].Type == 'checkbox'){
+                listValues.push(currBoolean);
+            }
+            else{
+                listValues.push(newFields[i].Value);
+            }
             listNames.push(newFields[i].Name);
-            listValues.push(newFields[i].Value);
             listTypes.push(newFields[i].Type);
         }
         
@@ -122,7 +140,7 @@
     },
 
     convertDatatype: function(datatype) {
-        //new logic for picklist + required
+        //new logic for picklist
         switch(datatype) {
             case 'INTEGER': return 'number';
             case 'DOUBLE': return 'number';
@@ -131,9 +149,8 @@
             case 'DATE': return 'date';
             case 'STRING': return 'text';
             case 'PICKLIST': return 'text';
+            case 'BOOLEAN': return 'checkbox';
             //case 'TEXTAREA': return 'text';
-            //case long text area
-            //case 'BOOLEAN': return 'checkbox';
             default: return datatype;
         }
     },

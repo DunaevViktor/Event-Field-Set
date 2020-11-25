@@ -21,7 +21,8 @@ public with sharing class EventController {
 
     @AuraEnabled
     public static Event getEvent(Id recordId) {
-        Event ev = [SELECT Id, StartDateTime, EndDateTime, Custom_Currency__c, 
+        //swap on Database.query
+        Event ev = [SELECT Id, StartDateTime, EndDateTime, Custom_Currency__c, Custom_Checkbox__c, 
                            Custom_Date__c, Custom_Number__c, Custom_Picklist__c, Custom_Text__c
                     FROM Event
                     WHERE Id = :recordId];
@@ -79,6 +80,10 @@ public with sharing class EventController {
                         }
                         when 'text' {
                             newEvent.put(fieldName, valuesInfo[count]);
+                        }
+                        when 'checkbox'{
+                            Boolean newCheckbox = Boolean.valueOf(valuesInfo[count]);
+                            newEvent.put(fieldName, newCheckbox);
                         }
                         when else {
                             System.debug('unknown type');

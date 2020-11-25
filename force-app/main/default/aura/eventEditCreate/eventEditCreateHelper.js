@@ -51,7 +51,22 @@
     },
 
     helperCreate: function(component) {
-        console.log('create logic');
+        var action = component.get("c.getFields");
+        action.setCallback(this, function(response) {
+            var state = response.getState();
+            if(state === "SUCCESS") {
+                var obj = response.getReturnValue();
+                for(var i=0; i<obj.length; i++){
+                    var newType = this.convertDatatype(obj[i].Type);
+                    obj[i].Type = newType;
+                }
+                component.set("v.NewFieldsInfo", obj);
+            }
+            else{
+                console.log("Failed with state: " + state);
+            }
+        });
+        $A.enqueueAction(action);
     },
 
     helperUpdate: function(component) {
@@ -77,6 +92,28 @@
         var action = component.get("c.updateEvent");
         action.setParams({
             recordId: recordId,
+            namesInfo: listNames,
+            valuesInfo: listValues,
+            typesInfo: listTypes
+        });
+        $A.enqueueAction(action);
+    },
+
+    helperInsert: function(component) {
+        var newFields = component.get("v.NewFieldsInfo");
+
+        var listNames = [];
+        var listValues = [];
+        var listTypes = [];
+        
+        for(var i=0; i<newFields.length; i++){
+            listNames.push(newFields[i].Name);
+            listValues.push(newFields[i].Value);
+            listTypes.push(newFields[i].Type);
+        }
+        
+        var action = component.get("c.insertEvent");
+        action.setParams({
             namesInfo: listNames,
             valuesInfo: listValues,
             typesInfo: listTypes

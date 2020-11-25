@@ -2,8 +2,10 @@
 
     <aura:handler  name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:attribute name="FieldsInfo" type="FieldWrapper[]" />
+    <aura:attribute name="NewFieldsInfo" type="FieldWrapper[]" />
     <aura:attribute name="CurrentEvent" type="Event" />
     <aura:attribute name="showEditForm" type="Boolean" default="false" />
+    <aura:attribute name="showCreateForm" type="Boolean" default="false" />
 
     <div class="slds-align_absolute-center">
         <lightning:card title="Edit/Create Event" class="slds-card slds-size_xx-large">
@@ -13,6 +15,23 @@
                 <lightning:button variant="brand" label="Create" title="Create record" onclick="{!c.handleCreate}"/>
             </div>
             <br/>
+
+            <aura:if isTrue="{!v.showCreateForm}">
+                <lightning:card class="slds-p-left_small slds-p-right_small slds-align_absolute-center">
+                    <div class="slds-scrollable" style="width:40rem;height:23rem">
+                        <div class="slds-scrollable_y">
+                            <aura:iteration items="{!v.NewFieldsInfo}" var="newfield">
+                                <lightning:input aura:id="newId" label="{!newfield.Label}" value="{!newfield.Value}" type="{!newfield.Type}"/>
+                            </aura:iteration>
+                            <br/>
+                            <div class="slds-align_absolute-center">
+                                <lightning:button variant="destructive" label="Cancel" title="Cancel create" onclick="{!c.handleNewCancel}"/>
+                                <lightning:button variant="success" label="Save" title="Save record" onclick="{!c.handleInsert}"/>
+                            </div>
+                        </div>
+                    </div>
+                </lightning:card>
+            </aura:if>
 
             <aura:if isTrue="{!v.showEditForm}">
                 <lightning:card class="slds-p-left_small slds-p-right_small slds-align_absolute-center">

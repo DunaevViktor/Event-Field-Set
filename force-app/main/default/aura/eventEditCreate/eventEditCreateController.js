@@ -16,12 +16,34 @@
     },
 
     handleUpdate: function(component, event, helper) {
+        var fieldsToValidate = component.find('inputId');
+
+        const allValid = fieldsToValidate.reduce(function (correctValid, inputCmp) {
+            inputCmp.reportValidity();
+            return correctValid && inputCmp.checkValidity();
+        }, true);
+
+        if(!allValid) {
+            return;
+        }
+
         component.set("v.showEditForm", false);
         helper.helperUpdate(component);
         helper.helperInit(component);
     },
 
     handleInsert: function(component, event, helper) {
+        var fieldsToValidate = component.find('newId');
+
+        const allValid = fieldsToValidate.reduce(function (correctValid, inputCmp) {
+            inputCmp.reportValidity();
+            return correctValid && inputCmp.checkValidity();
+        }, true);
+
+        if(!allValid) {
+            return;
+        }
+
         component.set("v.showCreateForm", false);
         helper.helperInsert(component);
     },

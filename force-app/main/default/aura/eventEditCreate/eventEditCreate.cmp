@@ -21,7 +21,7 @@
                     <div class="slds-scrollable" style="width:40rem;height:23rem">
                         <div class="slds-scrollable_y">
                             <aura:iteration items="{!v.NewFieldsInfo}" var="newfield">
-                                <lightning:input aura:id="newId" label="{!newfield.Label}" value="{!newfield.Value}" type="{!newfield.Type}"/>
+                                <lightning:input aura:id="newId" label="{!newfield.Label}" value="{!newfield.Value}" type="{!newfield.Type}" required="true"/>
                             </aura:iteration>
                             <br/>
                             <div class="slds-align_absolute-center">
@@ -38,7 +38,7 @@
                     <div class="slds-scrollable" style="width:40rem;height:23rem">
                         <div class="slds-scrollable_y">
                             <aura:iteration items="{!v.FieldsInfo}" var="field">
-                                <lightning:input aura:id="inputId" label="{!field.Label}" value="{!field.Value}" type="{!field.Type}"/>
+                                <lightning:input aura:id="inputId" label="{!field.Label}" value="{!field.Value}" type="{!field.Type}" required="true"/>
                             </aura:iteration>
                             <br/>
                             <div class="slds-align_absolute-center">

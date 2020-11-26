@@ -29,7 +29,7 @@
 
         component.set("v.showEditForm", false);
         helper.helperUpdate(component);
-        helper.helperInit(component);
+        helper.helperRedirect(component);
     },
 
     handleInsert: function(component, event, helper) {

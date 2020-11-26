@@ -21,11 +21,14 @@ public with sharing class EventController {
 
     @AuraEnabled
     public static Event getEvent(Id recordId) {
-        //swap on Database.query
-        Event ev = [SELECT Id, StartDateTime, EndDateTime, Custom_Currency__c, Custom_Checkbox__c, 
-                           Custom_Date__c, Custom_Number__c, Custom_Picklist__c, Custom_Text__c
-                    FROM Event
-                    WHERE Id = :recordId];
+        List<FieldWrapper> fileds = getFields();
+        String soqlFields = '';
+        for(Integer i=0; i<fileds.size(); i++){
+            soqlFields = soqlFields + fileds[i].Name + ' , ';
+        }
+        soqlFields = soqlFields.removeEnd(' , ');
+        String query = 'SELECT Id, ' + soqlFields + ' FROM Event WHERE Id = :recordId';
+        Event ev = Database.query(query);
         return ev;
     }
 
@@ -45,11 +48,12 @@ public with sharing class EventController {
     }
 
     @AuraEnabled
-    public static void insertEvent(List<String> namesInfo, List<String> valuesInfo, List<String> typesInfo){
+    public static String insertEvent(List<String> namesInfo, List<String> valuesInfo, List<String> typesInfo){
         Event newEvent = new Event();
 
         Event event = makeEvent(newEvent, namesInfo, valuesInfo, typesInfo);
         insert event;
+        return event.Id;
     }
 
     public static Event makeEvent(Event newEvent, List<String> namesInfo, List<String> valuesInfo, List<String> typesInfo){

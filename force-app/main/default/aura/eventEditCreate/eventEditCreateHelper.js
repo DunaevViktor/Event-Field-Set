@@ -136,7 +136,26 @@
             valuesInfo: listValues,
             typesInfo: listTypes
         });
+        action.setCallback(this, function(response) {
+            var state = response.getState();
+            if(state === "SUCCESS") {
+                component.set("v.recordId", response.getReturnValue());
+                this.helperRedirect(component);
+            }
+            else{
+                console.log("Failed with state: " + state);
+            }
+        });
         $A.enqueueAction(action);
+    },
+
+    helperRedirect: function(component) {
+        var record = component.get("v.recordId");
+        var redirect = $A.get("e.force:navigateToSObject");
+        redirect.setParams({
+            "recordId": record
+        });
+        redirect.fire();
     },
 
     convertDatatype: function(datatype) {

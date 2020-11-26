@@ -34,12 +34,12 @@ public with sharing class EventControllerTest {
         Datetime finish = Datetime.valueOf('2020-02-03 01:00:00');
         Date date1 = Date.valueOf('2020-10-10');
         Event newEvent = new Event(StartDateTime = start, EndDateTime = finish, Custom_Number__c = 1,
-        Custom_Text__c = 'text', Custom_Date__c = date1, Custom_Checkbox__c = false);
+        Custom_Text__c = 'text', Custom_Date__c = date1, Custom_Checkbox__c = false, Custom_Picklist__c = 'value 1');
         insert newEvent;
 
-        List<String> namesInfo = new List<String>{'EndDateTime', 'Custom_Number__c', 'Custom_Text__c', 'Custom_Date__c', 'Custom_Checkbox__c'};
-        List<String> valuesInfo = new List<String>{'2020-02-04 01:00:00', '2', 'text1' , '2020-10-11', 'true'};
-        List<String> typesInfo = new List<String>{'datetime', 'number', 'text', 'date', 'checkbox'};
+        List<String> namesInfo = new List<String>{'EndDateTime', 'Custom_Number__c', 'Custom_Text__c', 'Custom_Date__c', 'Custom_Checkbox__c', 'Custom_Picklist__c'};
+        List<String> valuesInfo = new List<String>{'2020-02-04 01:00:00', '2', 'text1' , '2020-10-11', 'true', 'value 2'};
+        List<String> typesInfo = new List<String>{'datetime', 'number', 'text', 'date', 'checkbox', 'COMBOBOX'};
 
         EventController.updateEvent(newEvent.Id, namesInfo, valuesInfo, typesInfo);
         List<Event> events = [SELECT Id, EndDateTime FROM Event];

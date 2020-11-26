@@ -22,7 +22,12 @@
                     <div class="slds-scrollable" style="width:40rem;height:23rem">
                         <div class="slds-scrollable_y">
                             <aura:iteration items="{!v.NewFieldsInfo}" var="newfield">
-                                <lightning:input aura:id="newId" label="{!newfield.Label}" value="{!newfield.Value}" type="{!newfield.Type}" required="{!newfield.Required}"/>
+                                <aura:if isTrue="{!newfield.isPickList}">
+                                    <lightning:combobox aura:id="newId" label="{!newfield.Label}" value="{!newfield.Value}" placeholder="Select value..." options="{!newfield.option}" required="{!newfield.Required}"/>
+                                    <aura:set attribute="else">
+                                        <lightning:input aura:id="newId" label="{!newfield.Label}" value="{!newfield.Value}" type="{!newfield.Type}" required="{!newfield.Required}"/>
+                                    </aura:set>
+                                </aura:if>
                             </aura:iteration>
                             <br/>
                             <div class="slds-align_absolute-center">
@@ -39,7 +44,12 @@
                     <div class="slds-scrollable" style="width:40rem;height:23rem">
                         <div class="slds-scrollable_y">
                             <aura:iteration items="{!v.FieldsInfo}" var="field">
-                                <lightning:input aura:id="inputId" label="{!field.Label}" value="{!field.Value}" type="{!field.Type}" required="{!field.Required}" checked="{!field.Value}"/>
+                                <aura:if isTrue="{!field.isPickList}">
+                                    <lightning:combobox aura:id="inputId" label="{!field.Label}" value="{!field.Value}" placeholder="Select value..." options="{!field.option}" required="{!field.Required}"/>
+                                    <aura:set attribute="else">
+                                        <lightning:input aura:id="inputId" label="{!field.Label}" value="{!field.Value}" type="{!field.Type}" required="{!field.Required}" checked="{!field.Value}"/>
+                                    </aura:set>
+                                </aura:if>
                             </aura:iteration>
                             <br/>
                             <div class="slds-align_absolute-center">

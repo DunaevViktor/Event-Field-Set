@@ -40,6 +40,18 @@
                             obj[i].Value = objValues[j];
                         }
                     }
+
+                    if(obj[i].Type == 'COMBOBOX'){
+                        obj[i].isPickList = true;
+                        var pickListOptions = [];
+                        for (var key in obj[i].picklistValues){
+                            pickListOptions.push({label: key, value: obj[i].picklistValues[key]});
+                        }
+                        obj[i].option = pickListOptions;
+                    }
+                    else{
+                        obj[i].isPickList = false;
+                    }
                 }
                 component.set("v.FieldsInfo", obj);
             }
@@ -59,6 +71,18 @@
                 for(var i=0; i<obj.length; i++){
                     var newType = this.convertDatatype(obj[i].Type);
                     obj[i].Type = newType;
+
+                    if(obj[i].Type == 'COMBOBOX'){
+                        obj[i].isPickList = true;
+                        var pickListOptions = [];
+                        for (var key in obj[i].picklistValues){
+                            pickListOptions.push({label: key, value: obj[i].picklistValues[key]});
+                        }
+                        obj[i].option = pickListOptions;
+                    }
+                    else{
+                        obj[i].isPickList = false;
+                    }
                 }
                 component.set("v.NewFieldsInfo", obj);
             }
@@ -159,7 +183,6 @@
     },
 
     convertDatatype: function(datatype) {
-        //new logic for picklist
         switch(datatype) {
             case 'INTEGER': return 'number';
             case 'DOUBLE': return 'number';
@@ -167,7 +190,6 @@
             case 'DATETIME': return 'datetime';
             case 'DATE': return 'date';
             case 'STRING': return 'text';
-            case 'PICKLIST': return 'text';
             case 'BOOLEAN': return 'checkbox';
             //case 'TEXTAREA': return 'text';
             default: return datatype;

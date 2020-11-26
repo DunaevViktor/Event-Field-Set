@@ -11,8 +11,16 @@ public with sharing class EventController {
             String fieldName = fieldDescribe.getName();
             String fieldLabel = fieldDescribe.getLabel();
             String fieldType = fieldDescribe.getType().name();
+
+            Map<String, Object> picklistValues = new Map<String, Object>();
+            if(fieldType == 'COMBOBOX' || fieldType == 'PICKLIST') {
+                fieldType = 'COMBOBOX';
+                for(Schema.PicklistEntry ple: fieldDescribe.getPicklistValues()){
+                    picklistValues.put(ple.getLabel(), ple.getValue());
+                }
+            }
             
-            FieldWrapper newFiled = new FieldWrapper(fieldName, fieldLabel, fieldType);
+            FieldWrapper newFiled = new FieldWrapper(fieldName, fieldLabel, fieldType, picklistValues);
             fields.add(newFiled);
         }
 
@@ -88,6 +96,9 @@ public with sharing class EventController {
                         when 'checkbox'{
                             Boolean newCheckbox = Boolean.valueOf(valuesInfo[count]);
                             newEvent.put(fieldName, newCheckbox);
+                        }
+                        when 'COMBOBOX'{
+                            newEvent.put(fieldName, valuesInfo[count]);
                         }
                         when else {
                             System.debug('unknown type');

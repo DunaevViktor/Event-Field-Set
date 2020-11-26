@@ -16,7 +16,7 @@
             </div>
             <br/>
 
-            <!--display checkbox and js time-->
+            <!--JS time UTC±0:00-->
             <aura:if isTrue="{!v.showCreateForm}">
                 <lightning:card class="slds-p-left_small slds-p-right_small slds-align_absolute-center">
                     <div class="slds-scrollable" style="width:40rem;height:23rem">
@@ -39,7 +39,7 @@
                     <div class="slds-scrollable" style="width:40rem;height:23rem">
                         <div class="slds-scrollable_y">
                             <aura:iteration items="{!v.FieldsInfo}" var="field">
-                                <lightning:input aura:id="inputId" label="{!field.Label}" value="{!field.Value}" type="{!field.Type}" required="{!field.Required}"/>
+                                <lightning:input aura:id="inputId" label="{!field.Label}" value="{!field.Value}" type="{!field.Type}" required="{!field.Required}" checked="{!field.Value}"/>
                             </aura:iteration>
                             <br/>
                             <div class="slds-align_absolute-center">
